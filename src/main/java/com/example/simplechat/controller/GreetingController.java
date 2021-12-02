@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 public class GreetingController {
 
     @MessageMapping("/greeting") // message is sent to /greeting, this handler called.
+    // /app/hello is here!! this message mapping is last parts.
     @SendTo("/publish/greetings") // return value of this method is delivered to /publish/greetings.
     public GreetingMessage greet(PersonMessage message) throws InterruptedException {
         // payload of message is mapped to PersonMessage.
