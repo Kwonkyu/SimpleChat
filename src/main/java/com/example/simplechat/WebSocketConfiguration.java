@@ -12,11 +12,11 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/publish");
-		// enable simple memory-based broker to send messages back to the client on destination /publish.
-		registry.setApplicationDestinationPrefixes("/app");
-		// /app prefix for messages that are bound for methods with '@MessageMapping' annotation.
-		// i.e. endpoint /app/hello will be handled by GreetingController.greet method(@MessageMapping).
+		// subscription url prefix. i.e. '@SendTo' annotation.
+		registry.enableSimpleBroker("/notice");
+		// prefix for client's send endpoint. client send data to '/notice/...'
+		// and it'll be handled by message brokers.
+		registry.setApplicationDestinationPrefixes("/publish");
 	}
 
 	@Override
