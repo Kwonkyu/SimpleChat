@@ -12,16 +12,23 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		// subscription url prefix. i.e. '@SendTo' annotation.
-		registry.enableSimpleBroker("/notice");
-		// prefix for client's send endpoint. client send data to '/notice/...'
-		// and it'll be handled by message brokers.
-		registry.setApplicationDestinationPrefixes("/publish");
+		// built-in message broker for subscriptions and broadcasting messages whose
+		// destination header prefix is ...
+		// client may subscribe through this prefix.
+		registry.enableSimpleBroker("/topic", "/chats");
+		// stomp messages with prefix '/app' routed to controller's message mapping handlers.
+		// client send stomp messages to '/app/...' which has '/app' "destination".
+		// And then, '...' field will be handled by message mapping annotation.
+		registry.setApplicationDestinationPrefixes("/app");
+		// destination reserved for single user.
+		registry.setUserDestinationPrefix("/user");
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/websocket-stomp").withSockJS(); // socket js fallback.
+		// websocket handshake endpoint.
+		registry.addEndpoint("/websocket-stomp")
+				.withSockJS(); // socket js fallback.
 	}
 
 }
