@@ -38,6 +38,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'com.h2database:h2:1.4.200'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 test {

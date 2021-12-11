@@ -1,15 +1,30 @@
 package com.example.simplechat;
 
-import java.util.ArrayList;
+import com.example.simplechat.security.JwtAuthenticationFilter;
+import com.example.simplechat.security.JwtAuthenticationProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	private final JwtAuthenticationProvider jwtAuthenticationProvider;
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -17,20 +32,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.inMemoryAuthentication()
-			.withUser("member1")
-			.password(passwordEncoder().encode("member1"))
-			.authorities(new ArrayList<>())
-			.and()
-			.withUser("member2")
-			.password(passwordEncoder().encode("member2"))
-			.authorities(new ArrayList<>())
-			.and()
-			.withUser("center1")
-			.password(passwordEncoder().encode("center1"))
-			.authorities(new ArrayList<>());
-	}
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.authenticationProvider(jwtAuthenticationProvider);
 
+		http
+			.csrf().disable()
+			.formLogin().disable()
+			.cors().and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			.authorizeRequests()
+			.antMatchers("/login")
+			.permitAll()
+			.anyRequest()
+			.authenticated();
+
+		http.addFilterAfter(jwtAuthenticationFilter, SecurityContextPersistenceFilter.class);
+	}
 }
