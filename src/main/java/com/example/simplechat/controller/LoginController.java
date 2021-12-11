@@ -2,6 +2,7 @@ package com.example.simplechat.controller;
 
 import com.example.simplechat.JwtTokenUtil;
 import com.example.simplechat.controller.bind.LoginRequest;
+import com.example.simplechat.security.JwtAuthentication;
 import com.example.simplechat.security.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class LoginController {
 		JwtAuthenticationToken token = new JwtAuthenticationToken(
 			request.getUsername(), request.getPassword());
 		Authentication authenticate = authenticationManager.authenticate(token);
-		return ResponseEntity.ok(jwtTokenUtil.generateJwt(String.valueOf(authenticate.getPrincipal())));
+		return ResponseEntity.ok(jwtTokenUtil.generateJwt(
+			((JwtAuthentication) authenticate.getPrincipal()).getUsername()));
 	}
 
 }

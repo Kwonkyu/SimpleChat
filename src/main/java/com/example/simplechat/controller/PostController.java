@@ -3,6 +3,7 @@ package com.example.simplechat.controller;
 import com.example.simplechat.controller.bind.PostCreateRequest;
 import com.example.simplechat.controller.bind.PostCreationNotification;
 import com.example.simplechat.data.Post;
+import com.example.simplechat.security.JwtAuthentication;
 import com.example.simplechat.service.PostService;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,9 @@ public class PostController {
 	private final SimpMessagingTemplate messagingTemplate;
 
 	@PostMapping
-	public ResponseEntity<Post> createPost(@AuthenticationPrincipal String username,
+	public ResponseEntity<Post> createPost(@AuthenticationPrincipal JwtAuthentication auth,
 										   @RequestBody PostCreateRequest request) {
-		Post post = postService.createPost(username, request);
+		Post post = postService.createPost(auth.getUsername(), request);
 		messagingTemplate.convertAndSendToUser(
 			"member1",
 			"/posts",

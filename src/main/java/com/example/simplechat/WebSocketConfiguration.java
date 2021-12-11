@@ -1,5 +1,6 @@
 package com.example.simplechat;
 
+import com.example.simplechat.security.JwtAuthentication;
 import com.example.simplechat.security.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +56,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 				if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
 					String jwt = String.valueOf(accessor.getFirstNativeHeader("Authorization"));
 					JwtAuthenticationToken jwtAuthenticationToken = jwtTokenUtil.validateJwt(jwt);
-					accessor.setUser(jwtAuthenticationToken);
+					accessor.setUser(((JwtAuthentication) jwtAuthenticationToken.getPrincipal())::getUsername);
 				}
 				return message;
 			}

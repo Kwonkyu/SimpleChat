@@ -1,6 +1,7 @@
 package com.example.simplechat.security;
 
 import java.util.Collection;
+import java.util.Objects;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,12 +43,31 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	@Override
 	public Object getPrincipal() {
-		if(principal instanceof JwtAuthentication) return ((JwtAuthentication) principal).getUsername();
-
 		return principal;
 	}
 
 	public void clearCredentials() {
 		this.credentials = null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+		JwtAuthenticationToken that = (JwtAuthenticationToken) o;
+		return principal.equals(that.principal) && Objects.equals(
+			credentials, that.credentials);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), principal, credentials);
 	}
 }
