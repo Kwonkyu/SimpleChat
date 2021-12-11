@@ -25,7 +25,7 @@ public class LoginController {
 		JwtAuthenticationToken token = new JwtAuthenticationToken(
 			request.getUsername(), request.getPassword());
 		Authentication authenticate = authenticationManager.authenticate(token);
-		return ResponseEntity.ok(jwtTokenUtil.generateJwt(authenticate.getName()));
+		return ResponseEntity.ok(jwtTokenUtil.generateJwt(String.valueOf(authenticate.getPrincipal())));
 	}
 
 }

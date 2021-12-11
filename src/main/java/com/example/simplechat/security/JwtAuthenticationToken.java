@@ -42,6 +42,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	@Override
 	public Object getPrincipal() {
+		if(principal instanceof JwtAuthentication) return ((JwtAuthentication) principal).getUsername();
+
 		return principal;
 	}
 

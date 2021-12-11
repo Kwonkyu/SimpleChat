@@ -14,13 +14,13 @@ public class PostService {
 
 	private final PostRepository postRepository;
 
-	public Post createPost(PostCreateRequest request) {
-		Post post = Post.builder()
+	public Post createPost(String username,
+						   PostCreateRequest request) {
+		return postRepository.save(Post.builder()
 						.title(request.getTitle())
 						.content(request.getContent())
-						.writer(request.getWriter())
-						.build();
-		return postRepository.save(post);
+						.writer(username)
+						.build());
 	}
 
 	public Post readPost(long postId) {

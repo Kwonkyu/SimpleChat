@@ -8,26 +8,34 @@ import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
 	private final PostService postService;
 	private final SimpMessagingTemplate messagingTemplate;
 
 	@PostMapping
-	public ResponseEntity<Post> createPost(PostCreateRequest request) {
-		Post post = postService.createPost(request);
-		messagingTemplate.convertAndSend(
-			"/notice/" + request.getWriter(), new PostCreationNotification(request.getTitle()));
-		// destination should be 'SendTo' annotation's url where client's subcribed channel.
+	public ResponseEntity<Post> createPost(@AuthenticationPrincipal String username,
+										   @RequestBody PostCreateRequest request) {
+		Post post = postService.createPost(username, request);
+		messagingTemplate.convertAndSendToUser(
+			"member1",
+			"/posts",
+			new PostCreationNotification(post.getWriter(), post.getTitle()));
+		messagingTemplate.convertAndSendToUser(
+			"member2",
+			"/posts",
+			new PostCreationNotification(post.getWriter(), post.getTitle()));
 		return ResponseEntity.created(URI.create("/posts/" + post.getId()))
 							 .body(post);
 	}

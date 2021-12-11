@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final JwtAuthenticationProvider jwtAuthenticationProvider;
+	private final JwtTokenUtil jwtTokenUtil;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 	@Override
@@ -32,6 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/*.html", "/*.js", "/*.css", "/webjars/**");
+	}
+
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authenticationProvider(jwtAuthenticationProvider);
@@ -42,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.cors().and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
-			.antMatchers("/login")
+			.antMatchers("/login", "/websocket-stomp/**")
 			.permitAll()
 			.anyRequest()
 			.authenticated();

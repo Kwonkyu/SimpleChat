@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Post {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	private String writer;
 	private String title;
 	private String content;
