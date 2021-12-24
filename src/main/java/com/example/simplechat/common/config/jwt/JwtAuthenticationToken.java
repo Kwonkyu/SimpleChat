@@ -1,4 +1,4 @@
-package com.example.simplechat.security;
+package com.example.simplechat.common.config.jwt;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -10,8 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
-	private final Object principal;
-	private String credentials;
+	private final transient Object principal;
+	private transient String credentials;
 
 	// before authenticated.
 	public JwtAuthenticationToken(

@@ -1,9 +1,9 @@
 package com.example.simplechat.controller;
 
-import com.example.simplechat.JwtTokenUtil;
+import com.example.simplechat.common.util.JwtTokenUtil;
 import com.example.simplechat.controller.bind.LoginRequest;
-import com.example.simplechat.security.JwtAuthentication;
-import com.example.simplechat.security.JwtAuthenticationToken;
+import com.example.simplechat.common.config.jwt.JwtAuthentication;
+import com.example.simplechat.common.config.jwt.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

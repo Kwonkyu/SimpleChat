@@ -1,7 +1,7 @@
-package com.example.simplechat;
+package com.example.simplechat.common.util;
 
-import com.example.simplechat.security.JwtAuthentication;
-import com.example.simplechat.security.JwtAuthenticationToken;
+import com.example.simplechat.common.config.jwt.JwtAuthentication;
+import com.example.simplechat.common.config.jwt.JwtAuthenticationToken;
 import io.jsonwebtoken.*;
 import java.util.ArrayList;
 import java.util.Date;

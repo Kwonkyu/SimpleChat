@@ -1,4 +1,4 @@
-package com.example.simplechat.controller;
+package com.example.simplechat.domains.chat.controller;
 
 import com.example.simplechat.controller.bind.ChatNotification;
 import com.example.simplechat.controller.bind.ChatRequest;

@@ -1,6 +1,6 @@
-package com.example.simplechat.security;
+package com.example.simplechat.common.config.jwt;
 
-import com.example.simplechat.JwtTokenUtil;
+import com.example.simplechat.common.util.JwtTokenUtil;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;

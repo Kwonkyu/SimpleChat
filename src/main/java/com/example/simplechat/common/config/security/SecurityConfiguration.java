@@ -1,7 +1,8 @@
-package com.example.simplechat;
+package com.example.simplechat.common.config.security;
 
-import com.example.simplechat.security.JwtAuthenticationFilter;
-import com.example.simplechat.security.JwtAuthenticationProvider;
+import com.example.simplechat.common.util.JwtTokenUtil;
+import com.example.simplechat.common.config.jwt.JwtAuthenticationFilter;
+import com.example.simplechat.common.config.jwt.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
