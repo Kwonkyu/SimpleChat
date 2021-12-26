@@ -2,11 +2,10 @@ package com.example.simplechat.controller;
 
 import com.example.simplechat.common.util.JwtTokenUtil;
 import com.example.simplechat.controller.bind.LoginRequest;
-import com.example.simplechat.common.config.jwt.JwtAuthentication;
-import com.example.simplechat.common.config.jwt.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +22,10 @@ public class LoginController {
 
 	@PostMapping
 	public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-		JwtAuthenticationToken token = new JwtAuthenticationToken(
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 			request.getUsername(), request.getPassword());
 		Authentication authenticate = authenticationManager.authenticate(token);
-		return ResponseEntity.ok(jwtTokenUtil.generateJwt(
-			((JwtAuthentication) authenticate.getPrincipal()).getUsername()));
+		return ResponseEntity.ok(jwtTokenUtil.generateJwt(authenticate.getName()));
 	}
 
 }
