@@ -3,17 +3,21 @@ package com.example.simplechat.domains.user.entity;
 import com.example.simplechat.common.entity.AuditableEntity;
 import com.example.simplechat.common.entity.UserRoles;
 import com.example.simplechat.domains.chat.entity.Chat;
+import com.example.simplechat.domains.room.entity.ChatRoom;
 import com.example.simplechat.domains.room.entity.UserRoomRegistration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,5 +76,39 @@ public class ChatUser extends AuditableEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public void joinRoom(
+		ChatRoom chatRoom
+	) {
+		UserRoomRegistration registration = UserRoomRegistration.of(this, chatRoom);
+		this.rooms.add(registration);
+		chatRoom.getUsers()
+				.add(registration);
+	}
+
+		@Builder
+	public ChatUser(String username, String hashedPassword, String alias) {
+		this.username = username;
+		this.hashedPassword = hashedPassword;
+		this.alias = alias;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(
+			o)) {
+			return false;
+		}
+		ChatUser user = (ChatUser) o;
+		return username != null && Objects.equals(username, user.username);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 }

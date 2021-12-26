@@ -1,10 +1,12 @@
 package com.example.simplechat.domains.room.entity;
 
 import com.example.simplechat.common.entity.AuditableEntity;
+import com.example.simplechat.domains.user.entity.ChatUser;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "user_room_registration")
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class UserRoomRegistration extends AuditableEntity {
 
@@ -24,5 +27,9 @@ public class UserRoomRegistration extends AuditableEntity {
 
 	@Column(name = "joined", nullable = false)
 	private boolean joined;
+
+	public static UserRoomRegistration of(ChatUser user, ChatRoom room) {
+		return new UserRoomRegistration(UserRoomId.of(user, room), true);
+	}
 
 }

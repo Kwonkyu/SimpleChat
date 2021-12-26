@@ -1,7 +1,7 @@
 package com.example.simplechat.domains.chat.entity;
 
 import com.example.simplechat.common.entity.AuditableEntity;
-import com.example.simplechat.domains.room.entity.Room;
+import com.example.simplechat.domains.room.entity.ChatRoom;
 import com.example.simplechat.domains.user.entity.ChatUser;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class Chat extends AuditableEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
-	private Room chatRoom;
+	private ChatRoom chatRoom;
 
 	@Column(name = "content", nullable = false)
 	private String message;
