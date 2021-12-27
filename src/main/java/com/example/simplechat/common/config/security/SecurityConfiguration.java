@@ -1,8 +1,8 @@
 package com.example.simplechat.common.config.security;
 
-import com.example.simplechat.common.util.JwtTokenUtil;
 import com.example.simplechat.common.config.jwt.JwtAuthenticationFilter;
 import com.example.simplechat.common.config.jwt.JwtAuthenticationProvider;
+import com.example.simplechat.domains.user.service.ChatUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final JwtAuthenticationProvider jwtAuthenticationProvider;
-	private final JwtTokenUtil jwtTokenUtil;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final ChatUserDetailsService chatUserDetailsService;
 
 	@Override
 	@Bean
@@ -42,15 +42,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authenticationProvider(jwtAuthenticationProvider);
+			.authenticationProvider(jwtAuthenticationProvider)
+			.userDetailsService(chatUserDetailsService);
 
 		http
-			.csrf().disable()
-			.formLogin().disable()
-			.cors().and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			.csrf()
+			.disable()
+			.formLogin()
+			.disable()
+			.cors()
+			.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
 			.authorizeRequests()
-			.antMatchers("/login", "/websocket-stomp/**")
+			.antMatchers("/api/public/**")
 			.permitAll()
 			.anyRequest()
 			.authenticated();

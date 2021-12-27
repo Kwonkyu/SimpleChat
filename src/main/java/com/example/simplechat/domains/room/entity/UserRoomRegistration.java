@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "user_room_registration")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class UserRoomRegistration extends AuditableEntity {
 
@@ -32,4 +33,15 @@ public class UserRoomRegistration extends AuditableEntity {
 		return new UserRoomRegistration(UserRoomId.of(user, room), true);
 	}
 
+	public ChatUser getUser() {
+		return id.getChatUser();
+	}
+
+	public ChatRoom getRoom() {
+		return id.getChatRoom();
+	}
+
+	public boolean isJoined() {
+		return joined;
+	}
 }
