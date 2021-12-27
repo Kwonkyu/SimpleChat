@@ -44,4 +44,13 @@ public class UserRoomRegistration extends AuditableEntity {
 	public boolean isJoined() {
 		return joined;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(" +
+			"EmbeddedId = " + getId() + ", " +
+			"createdAt = " + getCreatedAt() + ", " +
+			"updatedAt = " + getUpdatedAt() + ", " +
+			"joined = " + isJoined() + ")";
+	}
 }

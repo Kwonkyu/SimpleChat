@@ -73,4 +73,13 @@ public class ChatRoom extends AuditableEntity implements Serializable {
 	public int hashCode() {
 		return getClass().hashCode();
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(" +
+			"id = " + getId() + ", " +
+			"createdAt = " + getCreatedAt() + ", " +
+			"updatedAt = " + getUpdatedAt() + ", " +
+			"title = " + getTitle() + ")";
+	}
 }

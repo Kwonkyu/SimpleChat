@@ -53,6 +53,7 @@ public class BasicChatRoomService {
 			.orElseThrow(() -> new IllegalArgumentException(
 				"User not found."));
 		room.addUser(user);
+		chatRoomRepository.flush();
 		return JoinedUsersResponse.of(room);
 	}
 

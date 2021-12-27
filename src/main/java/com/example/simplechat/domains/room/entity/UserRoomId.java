@@ -48,4 +48,11 @@ public class UserRoomId implements Serializable {
 	public int hashCode() {
 		return Objects.hash(chatUser, chatRoom);
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(" +
+			"chatUser = " + chatUser + ", " +
+			"chatRoom = " + chatRoom + ")";
+	}
 }

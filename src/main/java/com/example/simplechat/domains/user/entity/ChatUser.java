@@ -110,4 +110,14 @@ public class ChatUser extends AuditableEntity implements UserDetails {
 	public int hashCode() {
 		return getClass().hashCode();
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(" +
+			"username = " + getUsername() + ", " +
+			"createdAt = " + getCreatedAt() + ", " +
+			"updatedAt = " + getUpdatedAt() + ", " +
+			"hashedPassword = " + getHashedPassword() + ", " +
+			"alias = " + getAlias() + ")";
+	}
 }
