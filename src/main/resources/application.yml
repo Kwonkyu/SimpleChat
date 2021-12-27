@@ -3,9 +3,16 @@ spring:
     hibernate:
       ddl-auto: create
     generate-ddl: true
-    show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/simplechat
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace

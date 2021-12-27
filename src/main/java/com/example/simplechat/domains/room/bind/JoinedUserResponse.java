@@ -22,9 +22,7 @@ public class JoinedUserResponse {
 		ChatUser user = registration.getUser();
 		this.username = user.getUsername();
 		this.alias = user.getAlias();
-		this.joinedAt = registration.getUpdatedAt() == null ?
-			registration.getCreatedAt() :
-			registration.getUpdatedAt();
+		this.joinedAt = registration.getUpdatedAt();
 	}
 
 	public static JoinedUserResponse of(UserRoomRegistration registration) {

@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,8 @@ import org.hibernate.Hibernate;
 
 @Getter
 @Embeddable
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserRoomId implements Serializable {
 
 	@ManyToOne

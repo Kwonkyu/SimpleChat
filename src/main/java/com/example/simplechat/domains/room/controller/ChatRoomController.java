@@ -51,7 +51,8 @@ public class ChatRoomController {
 		@PathVariable("roomId") long roomId,
 		@PathVariable("username") String username
 	) {
-		return ResponseEntity.ok(chatRoomService.joinUser(roomId, username));
+		chatRoomService.joinUser(roomId, username);
+		return ResponseEntity.ok(chatRoomService.getJoinedUsers(roomId));
 	}
 
 }

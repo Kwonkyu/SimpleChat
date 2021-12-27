@@ -21,7 +21,6 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.Assert;
 
 /**
  * Chatting user. Use username for PK and identification value.
@@ -87,7 +86,7 @@ public class ChatUser extends AuditableEntity implements UserDetails {
 				.add(registration);
 	}
 
-		@Builder
+	@Builder
 	public ChatUser(String username, String hashedPassword, String alias) {
 		this.username = username;
 		this.hashedPassword = hashedPassword;
