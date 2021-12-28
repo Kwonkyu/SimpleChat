@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,17 +19,17 @@ import lombok.NoArgsConstructor;
  * Chat messages on room.
  */
 @Entity
-@Table(name = "chat_message")
+@Table(name = "group_chat_message")
 @Getter
 @NoArgsConstructor
-public class Chat extends AuditableEntity {
+public class GroupChat extends AuditableEntity {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "username")
-	private ChatUser chatUser;
+	@JoinColumn(name = "sender_id", referencedColumnName = "username")
+	private ChatUser sender;
 
 	@ManyToOne
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
@@ -37,4 +38,14 @@ public class Chat extends AuditableEntity {
 	@Column(name = "content", nullable = false)
 	private String message;
 
+	@Builder
+	public GroupChat(
+		ChatUser sender,
+		ChatRoom chatRoom,
+		String message
+	) {
+		this.sender = sender;
+		this.chatRoom = chatRoom;
+		this.message = message;
+	}
 }

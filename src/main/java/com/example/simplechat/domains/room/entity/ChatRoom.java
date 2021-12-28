@@ -1,7 +1,7 @@
 package com.example.simplechat.domains.room.entity;
 
 import com.example.simplechat.common.entity.AuditableEntity;
-import com.example.simplechat.domains.chat.entity.Chat;
+import com.example.simplechat.domains.chat.entity.GroupChat;
 import com.example.simplechat.domains.user.entity.ChatUser;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class ChatRoom extends AuditableEntity implements Serializable {
 	private final List<UserRoomRegistration> users = new ArrayList<>();
 
 	@OneToMany(mappedBy = "chatRoom", cascade = CascadeType.PERSIST)
-	private final List<Chat> chats = new ArrayList<>();
+	private final List<GroupChat> groupChats = new ArrayList<>();
 
 	public void addUser(
 		ChatUser chatUser
@@ -49,6 +49,20 @@ public class ChatRoom extends AuditableEntity implements Serializable {
 		this.users.add(registration);
 		chatUser.getRooms()
 				.add(registration);
+	}
+
+	public GroupChat addChat(
+		ChatUser chatUser,
+		String message
+	) {
+		GroupChat groupChat = GroupChat
+			.builder()
+			.chatRoom(this)
+			.sender(chatUser)
+			.message(message)
+			.build();
+		this.groupChats.add(groupChat);
+		return groupChat;
 	}
 
 	@Builder
