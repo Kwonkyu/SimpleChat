@@ -11,43 +11,34 @@ import org.springframework.security.core.GrantedAuthority;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private final transient Object principal;
-	private transient String credentials;
 
 	// before authenticated.
 	public JwtAuthenticationToken(
-		String principal, // token
-		String credentials // null
+		String principal // token
 	) {
 		super(null);
 		super.setAuthenticated(false);
 		this.principal = principal;
-		this.credentials = credentials;
 	}
 
 	// after authenticated.
 	public JwtAuthenticationToken(
 		Collection<? extends GrantedAuthority> authorities,
-		Object principal, // User or username(current).
-		String credentials // null
+		Object principal // User or username(current).
 	) {
 		super(authorities);
 		super.setAuthenticated(true);
 		this.principal = principal;
-		this.credentials = credentials;
 	}
 
 	@Override
 	public Object getCredentials() {
-		return credentials;
+		return null;
 	}
 
 	@Override
 	public Object getPrincipal() {
 		return principal;
-	}
-
-	public void clearCredentials() {
-		this.credentials = null;
 	}
 
 	@Override
@@ -62,12 +53,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 			return false;
 		}
 		JwtAuthenticationToken that = (JwtAuthenticationToken) o;
-		return principal.equals(that.principal) && Objects.equals(
-			credentials, that.credentials);
+		return principal.equals(that.principal);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), principal, credentials);
+		return Objects.hash(super.hashCode(), principal);
 	}
 }

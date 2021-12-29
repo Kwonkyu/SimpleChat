@@ -20,7 +20,7 @@ public class ChatUserController {
 	@GetMapping
 	public ResponseEntity<ChatUserResponse> readUser(
 		@AuthenticationPrincipal JwtAuthentication authentication
-		) {
+	) {
 		return ResponseEntity.ok(chatUserService.readUser(authentication.getUsername()));
 	}
 

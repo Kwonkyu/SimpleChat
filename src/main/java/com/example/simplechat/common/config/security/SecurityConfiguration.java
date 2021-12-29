@@ -1,7 +1,6 @@
 package com.example.simplechat.common.config.security;
 
 import com.example.simplechat.common.config.jwt.JwtAuthenticationFilter;
-import com.example.simplechat.common.config.jwt.JwtAuthenticationProvider;
 import com.example.simplechat.domains.user.service.ChatUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final JwtAuthenticationProvider jwtAuthenticationProvider;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final ChatUserDetailsService chatUserDetailsService;
 
@@ -42,7 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authenticationProvider(jwtAuthenticationProvider)
 			.userDetailsService(chatUserDetailsService);
 
 		http
