@@ -2,6 +2,7 @@ package com.example.simplechat.domains.room.entity;
 
 import com.example.simplechat.common.entity.AuditableEntity;
 import com.example.simplechat.domains.user.entity.ChatUser;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -52,5 +53,22 @@ public class UserRoomRegistration extends AuditableEntity {
 			"createdAt = " + getCreatedAt() + ", " +
 			"updatedAt = " + getUpdatedAt() + ", " +
 			"joined = " + isJoined() + ")";
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		UserRoomRegistration that = (UserRoomRegistration) o;
+		return joined == that.joined && id.equals(that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, joined);
 	}
 }

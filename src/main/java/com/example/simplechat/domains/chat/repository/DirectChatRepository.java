@@ -1,6 +1,7 @@
 package com.example.simplechat.domains.chat.repository;
 
 import com.example.simplechat.domains.chat.entity.DirectChat;
+import com.example.simplechat.domains.chat.exception.DirectChatNotFoundException;
 import com.example.simplechat.domains.user.entity.ChatUser;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ public interface DirectChatRepository extends CrudRepository<DirectChat, Long> {
 
 	default DirectChat findByIdOrElseThrow(Long id) {
 		return findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("Direct chat not found."));
+			.orElseThrow(() -> new DirectChatNotFoundException(id));
 	}
 
 	@Query(
