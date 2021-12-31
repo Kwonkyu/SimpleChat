@@ -1,10 +1,12 @@
 package com.example.simplechat.domains.chat.controller;
 
+import com.example.simplechat.common.bind.ApiResponse;
 import com.example.simplechat.common.config.jwt.JwtAuthentication;
 import com.example.simplechat.domains.chat.bind.DirectChatRequest;
 import com.example.simplechat.domains.chat.bind.DirectChatResponse;
 import com.example.simplechat.domains.chat.bind.DirectChatsResponse;
 import com.example.simplechat.domains.chat.service.DirectChatService;
+import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,41 +26,41 @@ public class DirectChatController {
 	private final DirectChatService directChatService;
 
 	@GetMapping
-	public ResponseEntity<DirectChatsResponse> getChats(
+	public ResponseEntity<ApiResponse<DirectChatsResponse>> getChats(
 		@AuthenticationPrincipal JwtAuthentication authentication
 	) {
-		return ResponseEntity.ok(directChatService.getMyChats(authentication.getUsername()));
-	}
-
-	@GetMapping("/{chatId}")
-	public ResponseEntity<DirectChatResponse> readChat(
-		@PathVariable("chatId") long chatId
-	) {
-		return ResponseEntity.ok(directChatService.getChat(chatId));
-	}
-
-	@PostMapping("/{username}")
-	public ResponseEntity<DirectChatResponse> sendChat(
-		@AuthenticationPrincipal JwtAuthentication authentication,
-		@PathVariable("username") String otherUsername,
-		@Valid @RequestBody DirectChatRequest request
-	) {
-		return ResponseEntity.ok(directChatService.sendChat(
-			authentication.getUsername(),
-			otherUsername,
-			request.getMessage()
-		));
+		return ResponseEntity.ok(
+			ApiResponse.success(
+				directChatService.getMyChats(authentication.getUsername())));
 	}
 
 	@GetMapping("/{username}")
-	public ResponseEntity<DirectChatsResponse> getChatsBetween(
+	public ResponseEntity<ApiResponse<DirectChatsResponse>> getChatsBetween(
 		@AuthenticationPrincipal JwtAuthentication authentication,
 		@PathVariable("username") String otherUsername
 	) {
 		return ResponseEntity.ok(
-			directChatService.getChatsBetween(
-				authentication.getUsername(),
-				otherUsername
-			));
+			ApiResponse.success(
+				directChatService.getChatsBetween(
+					authentication.getUsername(),
+					otherUsername
+				)));
 	}
+
+	@PostMapping("/{username}")
+	public ResponseEntity<ApiResponse<DirectChatResponse>> sendChat(
+		@AuthenticationPrincipal JwtAuthentication authentication,
+		@PathVariable("username") String otherUsername,
+		@Valid @RequestBody DirectChatRequest request
+	) {
+		DirectChatResponse chat = directChatService.sendChat(
+			authentication.getUsername(),
+			otherUsername,
+			request.getMessage()
+		);
+		return ResponseEntity
+			.created(URI.create("/api/chat/" + chat.getId()))
+			.body(ApiResponse.success(chat));
+	}
+
 }

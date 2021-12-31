@@ -3,9 +3,12 @@ spring:
     hibernate:
       ddl-auto: create
     generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
     url: jdbc:mysql://localhost:3306/simplechat_test
-    username: root
+    username: simplechat
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
 logging:
