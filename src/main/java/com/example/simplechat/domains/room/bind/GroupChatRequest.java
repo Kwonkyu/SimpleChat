@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomInformationRequest {
+public class GroupChatRequest {
 
 	@NotBlank
-	private String title;
+	private String message;
 
 }

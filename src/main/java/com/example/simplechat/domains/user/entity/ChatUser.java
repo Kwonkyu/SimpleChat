@@ -2,7 +2,6 @@ package com.example.simplechat.domains.user.entity;
 
 import com.example.simplechat.common.entity.AuditableEntity;
 import com.example.simplechat.common.entity.UserRoles;
-import com.example.simplechat.domains.chat.entity.Chat;
 import com.example.simplechat.domains.room.entity.ChatRoom;
 import com.example.simplechat.domains.room.entity.UserRoomRegistration;
 import java.util.ArrayList;
@@ -40,9 +39,6 @@ public class ChatUser extends AuditableEntity implements UserDetails {
 
 	@Column(name = "alias", nullable = false)
 	private String alias;
-
-	@OneToMany(mappedBy = "chatUser")
-	private final List<Chat> chats = new ArrayList<>();
 
 	@OneToMany(mappedBy = "id.chatUser")
 	private final List<UserRoomRegistration> rooms = new ArrayList<>();

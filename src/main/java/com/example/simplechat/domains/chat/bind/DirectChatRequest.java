@@ -1,4 +1,4 @@
-package com.example.simplechat.domains.room.bind;
+package com.example.simplechat.domains.chat.bind;
 
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomInformationRequest {
+public class DirectChatRequest {
 
 	@NotBlank
-	private String title;
+	private String message;
 
 }

@@ -1,5 +1,6 @@
 package com.example.simplechat.domains.user.controller;
 
+import com.example.simplechat.common.bind.ApiResponse;
 import com.example.simplechat.common.config.jwt.JwtAuthentication;
 import com.example.simplechat.domains.user.bind.ChatUserResponse;
 import com.example.simplechat.domains.user.service.BasicChatUserService;
@@ -18,10 +19,11 @@ public class ChatUserController {
 	private final BasicChatUserService chatUserService;
 
 	@GetMapping
-	public ResponseEntity<ChatUserResponse> readUser(
+	public ResponseEntity<ApiResponse<ChatUserResponse>> readUser(
 		@AuthenticationPrincipal JwtAuthentication authentication
-		) {
-		return ResponseEntity.ok(chatUserService.readUser(authentication.getUsername()));
+	) {
+		return ResponseEntity.ok(
+			ApiResponse.success(chatUserService.readUser(authentication.getUsername())));
 	}
 
 }
