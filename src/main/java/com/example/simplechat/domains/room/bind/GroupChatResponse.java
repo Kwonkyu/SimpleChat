@@ -1,15 +1,13 @@
 package com.example.simplechat.domains.room.bind;
 
 import com.example.simplechat.domains.chat.entity.GroupChat;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupChatResponse {
 
 	@JsonProperty("id")
@@ -24,6 +22,19 @@ public class GroupChatResponse {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonProperty("sentAt")
 	private final LocalDateTime sentAt;
+
+	@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+	private GroupChatResponse(
+		@JsonProperty("id") Long id,
+		@JsonProperty("sender") ChatUsernameResponse sender,
+		@JsonProperty("message") String message,
+		@JsonProperty("sentAt") LocalDateTime sentAt
+	) {
+		this.id = id;
+		this.sender = sender;
+		this.message = message;
+		this.sentAt = sentAt;
+	}
 
 	public static GroupChatResponse of(GroupChat groupChat) {
 		return new GroupChatResponse(

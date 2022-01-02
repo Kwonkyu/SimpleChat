@@ -21,8 +21,7 @@ public class GroupChatService {
 
 	@Transactional(readOnly = true)
 	public GroupChatsResponse readChats(long roomId) {
-		ChatRoom chatRoom = chatRoomRepository.findByIdOrElseThrow(roomId);
-		return GroupChatsResponse.of(chatRoom.getGroupChats());
+		return GroupChatsResponse.of(chatRoomRepository.findByIdOrElseThrow(roomId));
 	}
 
 	public GroupChatResponse createChat(
@@ -33,6 +32,7 @@ public class GroupChatService {
 		ChatRoom chatRoom = chatRoomRepository.findByIdOrElseThrow(roomId);
 		ChatUser user = chatUserRepository.findByUsernameOrElseThrow(senderUsername);
 		GroupChat groupChat = chatRoom.addChat(user, content);
+		chatRoomRepository.flush();
 		return GroupChatResponse.of(groupChat);
 	}
 

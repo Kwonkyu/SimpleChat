@@ -2,11 +2,7 @@ package com.example.simplechat.domains.room.controller;
 
 import com.example.simplechat.common.bind.ApiResponse;
 import com.example.simplechat.common.config.jwt.JwtAuthentication;
-import com.example.simplechat.domains.chat.service.GroupChatService;
 import com.example.simplechat.domains.room.bind.ChatRoomInformationResponse;
-import com.example.simplechat.domains.room.bind.GroupChatRequest;
-import com.example.simplechat.domains.room.bind.GroupChatResponse;
-import com.example.simplechat.domains.room.bind.GroupChatsResponse;
 import com.example.simplechat.domains.room.bind.JoinedUsersResponse;
 import com.example.simplechat.domains.room.bind.RoomInformationRequest;
 import com.example.simplechat.domains.room.service.BasicChatRoomService;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatRoomController {
 
 	private final BasicChatRoomService chatRoomService;
-	private final GroupChatService groupChatService;
 
 	@PostMapping
 	public ResponseEntity<ApiResponse<ChatRoomInformationResponse>> createRoom(
@@ -69,32 +64,6 @@ public class ChatRoomController {
 		chatRoomService.checkManagerAuthority(authentication.getUsername(), roomId);
 		return ResponseEntity.ok(
 			ApiResponse.success(chatRoomService.joinUser(roomId, username)));
-	}
-
-	@GetMapping("/{roomId}/chats")
-	public ResponseEntity<ApiResponse<GroupChatsResponse>> getChats(
-		@AuthenticationPrincipal JwtAuthentication authentication,
-		@PathVariable("roomId") long roomId
-	) {
-		chatRoomService.checkJoinedAuthority(authentication.getUsername(), roomId);
-		return ResponseEntity.ok(
-			ApiResponse.success(groupChatService.readChats(roomId)));
-	}
-
-	@PostMapping("/{roomId}/chats")
-	public ResponseEntity<ApiResponse<GroupChatResponse>> sendChat(
-		@PathVariable("roomId") long roomId,
-		@AuthenticationPrincipal JwtAuthentication authentication,
-		@Valid @RequestBody GroupChatRequest groupChatRequest
-	) {
-		chatRoomService.checkJoinedAuthority(authentication.getUsername(), roomId);
-		return ResponseEntity.ok(
-			ApiResponse.success(
-				groupChatService.createChat(
-					roomId,
-					authentication.getUsername(),
-					groupChatRequest.getMessage()
-				)));
 	}
 
 }

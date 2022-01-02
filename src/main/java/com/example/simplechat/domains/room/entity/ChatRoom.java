@@ -76,6 +76,12 @@ public class ChatRoom extends AuditableEntity implements Serializable {
 		return groupChat;
 	}
 
+	public boolean containsUser(ChatUser user) {
+		return this.users.stream()
+			.map(UserRoomRegistration::getUser)
+			.anyMatch(user::equals);
+	}
+
 	@Builder
 	public ChatRoom(
 		ChatUser manager,

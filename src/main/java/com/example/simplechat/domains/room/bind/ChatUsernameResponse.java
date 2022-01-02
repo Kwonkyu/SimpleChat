@@ -22,12 +22,9 @@ public class ChatUsernameResponse {
 		this.alias = alias;
 	}
 
-	private ChatUsernameResponse(ChatUser chatUser) {
-		this.username = chatUser.getUsername();
-		this.alias = chatUser.getAlias();
-	}
-
 	public static ChatUsernameResponse of(ChatUser chatUser) {
-		return new ChatUsernameResponse(chatUser);
+		return new ChatUsernameResponse(
+			chatUser.getUsername(),
+			chatUser.getAlias());
 	}
 }

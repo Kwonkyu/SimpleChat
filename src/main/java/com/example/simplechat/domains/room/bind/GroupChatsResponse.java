@@ -1,23 +1,27 @@
 package com.example.simplechat.domains.room.bind;
 
-import com.example.simplechat.domains.chat.entity.GroupChat;
+import com.example.simplechat.domains.room.entity.ChatRoom;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupChatsResponse {
 
 	@JsonProperty("chats")
 	private final List<GroupChatResponse> chats;
 
-	public static GroupChatsResponse of(List<GroupChat> groupChats) {
+	@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+	private GroupChatsResponse(@JsonProperty("chats") List<GroupChatResponse> chats) {
+		this.chats = chats;
+	}
+
+	public static GroupChatsResponse of(ChatRoom chatRoom) {
 		return new GroupChatsResponse(
-			groupChats
+			chatRoom
+				.getGroupChats()
 				.stream()
 				.map(GroupChatResponse::of)
 				.collect(Collectors.toList()));

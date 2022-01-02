@@ -10,10 +10,8 @@ import com.example.simplechat.domains.room.bind.ChatRoomInformationResponse;
 import com.example.simplechat.domains.room.bind.JoinedUserResponse;
 import com.example.simplechat.domains.room.bind.JoinedUsersResponse;
 import com.example.simplechat.domains.room.bind.RoomInformationRequest;
-import com.example.simplechat.domains.room.repository.ChatRoomRepository;
 import com.example.simplechat.domains.room.service.BasicChatRoomService;
 import com.example.simplechat.domains.user.bind.ChatUserResponse;
-import com.example.simplechat.domains.user.repository.ChatUserRepository;
 import com.example.simplechat.domains.user.service.BasicChatUserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,17 +38,9 @@ class ChatRoomTest {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 	@Autowired
-	ChatRoomRepository roomRepository;
-	@Autowired
-	ChatUserRepository userRepository;
-	@Autowired
 	BasicChatUserService chatUserService;
 	@Autowired
 	BasicChatRoomService chatRoomService;
-	@Autowired
-	ChatUserRepository chatUserRepository;
-	@Autowired
-	ChatRoomRepository chatRoomRepository;
 	@Autowired
 	ObjectMapper objectMapper;
 

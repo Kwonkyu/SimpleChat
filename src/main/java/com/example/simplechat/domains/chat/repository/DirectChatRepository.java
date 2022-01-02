@@ -14,6 +14,7 @@ public interface DirectChatRepository extends CrudRepository<DirectChat, Long> {
 			.orElseThrow(() -> new DirectChatNotFoundException(id));
 	}
 
+	// https://stackoverflow.com/questions/38410702/group-by-sender-receiver-or-receiver-sender-in-mysql
 	@Query(
 		"SELECT c FROM DirectChat c WHERE c.id in ("
 			+ "SELECT max(c_.id) FROM DirectChat c_ WHERE c_.sender = ?1 OR c_.receiver = ?1 "

@@ -3,7 +3,6 @@ package com.example.simplechat.domains.room.service;
 import com.example.simplechat.domains.room.bind.ChatRoomInformationResponse;
 import com.example.simplechat.domains.room.bind.JoinedUsersResponse;
 import com.example.simplechat.domains.room.entity.ChatRoom;
-import com.example.simplechat.domains.room.entity.UserRoomRegistration;
 import com.example.simplechat.domains.room.repository.ChatRoomRepository;
 import com.example.simplechat.domains.user.entity.ChatUser;
 import com.example.simplechat.domains.user.repository.ChatUserRepository;
@@ -55,7 +54,7 @@ public class BasicChatRoomService {
 	public void checkJoinedAuthority(String username, long roomId) {
 		ChatUser user = chatUserRepository.findByUsernameOrElseThrow(username);
 		ChatRoom room = chatRoomRepository.findByIdOrElseThrow(roomId);
-		if(!room.getUsers().contains(UserRoomRegistration.of(user, room))) {
+		if(!room.containsUser(user)) {
 			throw new AccessDeniedException(String.format("User %s is not joined to room #%d",
 														  username, roomId
 			));
