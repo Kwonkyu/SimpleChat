@@ -18,19 +18,19 @@ public class DirectChatService {
 	private final DirectChatRepository directChatRepository;
 
 	@Transactional(readOnly = true)
-	public DirectChatsResponse getMyChats(String username) {
+	public DirectChatsResponse readMyChats(String username) {
 		return DirectChatsResponse.of(
 			directChatRepository.findAllByReceiverGroup(
 				chatUserRepository.findByUsernameOrElseThrow(username)));
 	}
 
 	@Transactional(readOnly = true)
-	public DirectChatResponse getChat(long chatId) {
+	public DirectChatResponse readChat(long chatId) {
 		return DirectChatResponse.of(
 			directChatRepository.findByIdOrElseThrow(chatId));
 	}
 
-	public DirectChatResponse sendChat(
+	public DirectChatResponse createChat(
 		String senderUsername,
 		String receiverUsername,
 		String message
@@ -45,7 +45,7 @@ public class DirectChatService {
 	}
 
 	@Transactional(readOnly = true)
-	public DirectChatsResponse getChatsBetween(
+	public DirectChatsResponse readChatsBetween(
 		String user1,
 		String user2
 	) {
