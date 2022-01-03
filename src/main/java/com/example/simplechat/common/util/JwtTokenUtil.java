@@ -49,6 +49,10 @@ public class JwtTokenUtil {
 	}
 
 	public JwtAuthenticationToken validateJwt(String token) {
+		if(token.startsWith("Bearer ")) {
+			token = token.substring(7);
+		}
+
 		Claims claims = parseJwtClaims(token);
 		String username = claims.getSubject();
 		JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(
