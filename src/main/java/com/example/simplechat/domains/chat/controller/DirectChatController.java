@@ -31,7 +31,7 @@ public class DirectChatController {
 	) {
 		return ResponseEntity.ok(
 			ApiResponse.success(
-				directChatService.getMyChats(authentication.getUsername())));
+				directChatService.readMyChats(authentication.getUsername())));
 	}
 
 	@GetMapping("/{username}")
@@ -41,7 +41,7 @@ public class DirectChatController {
 	) {
 		return ResponseEntity.ok(
 			ApiResponse.success(
-				directChatService.getChatsBetween(
+				directChatService.readChatsBetween(
 					authentication.getUsername(),
 					otherUsername
 				)));
@@ -53,7 +53,7 @@ public class DirectChatController {
 		@PathVariable("username") String otherUsername,
 		@Valid @RequestBody DirectChatRequest request
 	) {
-		DirectChatResponse chat = directChatService.sendChat(
+		DirectChatResponse chat = directChatService.createChat(
 			authentication.getUsername(),
 			otherUsername,
 			request.getMessage()
